@@ -1,6 +1,21 @@
 <script setup lang="ts">
+import { onMounted, useAttrs } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
+
+type FretMark = number | 'open' | 'muted'
+type Mark = [number, FretMark, string] | [number, FretMark]
+
+const props = defineProps<{
+  type: 'absolute' | 'relative'
+  marks: Mark[]
+}>()
+
+onMounted(() => {
+  console.log(props.type, props.marks)
+  let attrs = useAttrs()
+  console.log({ ...attrs })
+})
 </script>
 
 <template>
