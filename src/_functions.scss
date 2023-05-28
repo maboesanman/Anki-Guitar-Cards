@@ -1,0 +1,28 @@
+@use 'sass:math';
+
+// (1/2)^(1/12), for equal temperament
+$fret-ratio: 0.9438743126816934;
+
+@function fret-width($fret) {
+  @return (math.pow($fret-ratio, $fret - 1) - math.pow($fret-ratio, $fret)) * 20fr;
+}
+
+@function fret-grid-frets-inner($n) {
+  $result: fret-width(1);
+  @for $f from 2 through $n {
+    $result: $result fret-width($f)
+  }
+  @return $result;
+}
+
+@function fret-grid-frets($n) {
+  @return calc(2em + 4px) fret-grid-frets-inner($n);
+}
+
+@function fret-grid-strings($n) {
+  $result: 2em;
+  @for $f from 2 through $n {
+    $result: $result 2em
+  }
+  @return $result;
+}

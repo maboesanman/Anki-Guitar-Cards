@@ -39,11 +39,16 @@ export interface ChordMarkConfig {
   marks: Mark[];
 }
 
-export type MarkConfig = NeckMarkConfig | ChordMarkConfig;
+export interface ScaleMarkConfig {
+  type: 'scale';
+  marks: Mark[];
+}
+
+export type MarkConfig = NeckMarkConfig | ChordMarkConfig | ScaleMarkConfig;
 
 export function parseConfig(input: string): MarkConfig | undefined {
-  const words = input.split(" ");
-  let type: 'chord' | 'neck' = 'chord';
+  const words = input.split(" ").filter(x => x.length);
+  let type: MarkConfig['type'] = 'chord';
   let nut = false;
 
   const first = words.shift()
@@ -62,6 +67,8 @@ export function parseConfig(input: string): MarkConfig | undefined {
       nut = true
     } else if(first === "N") {
       type = 'neck';
+    } else if(first === "S") {
+      type = 'scale';
     }
   }
 

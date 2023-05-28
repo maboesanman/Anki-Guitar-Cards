@@ -9,17 +9,9 @@ defineProps<{
 
 <template>
   <div class="fretboard">
-    <!-- fret marks -->
-    <div class="fret-mark" style="grid-column: 4 / 4"/>
-    <div class="fret-mark" style="grid-column: 6 / 6"/>
-    <div class="fret-mark" style="grid-column: 8 / 8"/>
-    <div class="fret-mark" style="grid-column: 10 / 10"/>
-    <div class="fret-mark top" style="grid-column: 13 / 13"/>
-    <div class="fret-mark bottom" style="grid-column: 13 / 13"/>
-
     <!-- frets -->
-    <template v-for="i in 12" :key="i">
-      <div class="fret" :class="{'fret--nut': i === 1 }" :style="`grid-column: ${i} / ${i}`" />
+    <template v-for="i in 6" :key="i">
+      <div class="fret" :style="`grid-column: ${i} / ${i}`" />
     </template>
 
     <!-- strings -->
@@ -31,8 +23,8 @@ defineProps<{
     <template v-for="mark, index in marks" :key="index">
       <div v-if="mark.type === 'single'"
         class="mark mark--single"
-        :style="`
-          grid-area: ${7 - mark.string} / ${mark.fret + 1};
+        :style="
+          `grid-area: ${7 - mark.string} / ${mark.fret + 1};
           ${mark.color ? 'background-color: ' + mark.color + ';': ''}
         `">
         {{ mark.label }}
@@ -47,16 +39,6 @@ defineProps<{
         `">
         {{ mark.label }}
       </div>
-      <div v-if="mark.type === 'muted'"
-        class="mark mark--muted"
-        :style="`grid-row: ${7 - mark.string}`">
-        ╳
-      </div>
-      <div v-if="mark.type === 'open'"
-        class="mark mark--open"
-        :style="`grid-row: ${7 - mark.string}`">
-        ⵔ
-      </div>
     </template>
   </div>
 </template>
@@ -66,7 +48,7 @@ defineProps<{
 
 .fretboard {
   display: grid;
-  grid-template-columns: functions.fret-grid-frets(12);
+  grid-template-columns: 1px functions.fret-grid-frets-inner(5);
   grid-template-rows: functions.fret-grid-strings(6);
 }
 
@@ -93,14 +75,10 @@ defineProps<{
 
   place-self: center stretch;
   border-right: 1px solid black;
-
-  &--nut {
-    border-right-width: 4px;
-  }
 }
 
 .string {
-  grid-column: 2 / 13;
+  grid-column: 2 / 7;
 
   height: 1px;
   place-self: center stretch;
