@@ -8,66 +8,77 @@ defineProps<{
 </script>
 
 <template>
-  <div class="fretboard">
-    <!-- fret marks -->
-    <div class="fret-mark" style="grid-column: 4 / 4"/>
-    <div class="fret-mark" style="grid-column: 6 / 6"/>
-    <div class="fret-mark" style="grid-column: 8 / 8"/>
-    <div class="fret-mark" style="grid-column: 10 / 10"/>
-    <div class="fret-mark top" style="grid-column: 13 / 13"/>
-    <div class="fret-mark bottom" style="grid-column: 13 / 13"/>
-
-    <!-- frets -->
-    <template v-for="i in 12" :key="i">
-      <div class="fret" :class="{'fret--nut': i === 1 }" :style="`grid-column: ${i} / ${i}`" />
-    </template>
-
-    <!-- strings -->
-    <template v-for="i in 6" :key="i">
-      <div class="string" :style="`grid-row: ${i} / ${i}`" />
-    </template>
-
-    <!-- marks -->
-    <template v-for="mark, index in marks" :key="index">
-      <div v-if="mark.type === 'single'"
-        class="mark mark--single"
-        :style="`
-          grid-area: ${7 - mark.string} / ${mark.fret + 1};
-          ${mark.color ? 'background-color: ' + mark.color + ';': ''}
-        `">
-        {{ mark.label }}
-      </div>
-      <div v-if="mark.type === 'barre'"
-        class="mark mark--barre"
-        :style="`
-          grid-area: ${7 - mark.endString} / ${mark.fret + 1} / ${8 - mark.startString};
-          height: ${1.5 + 2 * (mark.endString - mark.startString)}em;
-          line-height: ${1.5 + 2 * (mark.endString - mark.startString)}em;
-          ${mark.color ? 'background-color: ' + mark.color + ';': ''}
-        `">
-        {{ mark.label }}
-      </div>
-      <div v-if="mark.type === 'muted'"
-        class="mark mark--muted"
-        :style="`grid-row: ${7 - mark.string}`">
-        ╳
-      </div>
-      <div v-if="mark.type === 'open'"
-        class="mark mark--open"
-        :style="`grid-row: ${7 - mark.string}`">
-        ⵔ
-      </div>
-    </template>
+  <div class="container">
+    <div class="fretboard">
+      <!-- fret marks -->
+      <div class="fret-mark" style="grid-column: 4 / 4"/>
+      <div class="fret-mark" style="grid-column: 6 / 6"/>
+      <div class="fret-mark" style="grid-column: 8 / 8"/>
+      <div class="fret-mark" style="grid-column: 10 / 10"/>
+      <div class="fret-mark top" style="grid-column: 13 / 13"/>
+      <div class="fret-mark bottom" style="grid-column: 13 / 13"/>
+  
+      <!-- frets -->
+      <template v-for="i in 12" :key="i">
+        <div class="fret" :class="{'fret--nut': i === 1 }" :style="`grid-column: ${i} / ${i}`" />
+      </template>
+  
+      <!-- strings -->
+      <template v-for="i in 6" :key="i">
+        <div class="string" :style="`grid-row: ${i} / ${i}`" />
+      </template>
+  
+      <!-- marks -->
+      <template v-for="mark, index in marks" :key="index">
+        <div v-if="mark.type === 'single'"
+          class="mark mark--single"
+          :style="`
+            grid-area: ${7 - mark.string} / ${mark.fret + 1};
+            ${mark.color ? 'background-color: ' + mark.color + ';': ''}
+          `">
+          {{ mark.label }}
+        </div>
+        <div v-if="mark.type === 'barre'"
+          class="mark mark--barre"
+          :style="`
+            grid-area: ${7 - mark.endString} / ${mark.fret + 1} / ${8 - mark.startString};
+            height: ${1.5 + 2 * (mark.endString - mark.startString)}em;
+            line-height: ${1.5 + 2 * (mark.endString - mark.startString)}em;
+            ${mark.color ? 'background-color: ' + mark.color + ';': ''}
+          `">
+          {{ mark.label }}
+        </div>
+        <div v-if="mark.type === 'muted'"
+          class="mark mark--muted"
+          :style="`grid-row: ${7 - mark.string}`">
+          ╳
+        </div>
+        <div v-if="mark.type === 'open'"
+          class="mark mark--open"
+          :style="`grid-row: ${7 - mark.string}`">
+          ⵔ
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use '@/functions';
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
 .fretboard {
+  flex: 1;
+  background-color: white;
+  color: black;
   display: grid;
   grid-template-columns: functions.fret-grid-frets(12);
   grid-template-rows: functions.fret-grid-strings(6);
+  max-width: 60em;
 }
 
 .fret-mark {

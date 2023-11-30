@@ -9,59 +9,69 @@ defineProps<{
 </script>
 
 <template>
-  <div class="fretboard">
-    <!-- frets -->
-    <template v-for="i in 6" :key="i">
-      <div class="fret" :class="{'fret--nut': i === 1 && nut }" :style="`grid-row: ${i}`" />
-    </template>
-
-    <!-- strings -->
-    <template v-for="i in 6" :key="i">
-      <div class="string" :style="`grid-column: ${i}`" />
-    </template>
-
-    <!-- marks -->
-    <template v-for="mark, index in marks" :key="index">
-      <div v-if="mark.type === 'single'"
-        class="mark mark--single"
-        :style="`
-          grid-area: ${mark.fret + 1} / ${mark.string};
-          ${mark.color ? 'background-color: ' + mark.color + ';': ''}
-        `">
-        {{ mark.label }}
-      </div>
-      <div v-if="mark.type === 'barre'"
-        class="mark mark--barre"
-        :style="`
-          grid-area: ${mark.fret + 1} / ${mark.endString + 1} / ${mark.fret + 1} / ${mark.startString};
-          width: ${1.5 + 2 * (mark.endString - mark.startString)}em;
-          ${mark.color ? 'background-color: ' + mark.color + ';': ''}
-        `">
-        {{ mark.label }}
-      </div>
-      <div v-if="mark.type === 'muted'"
-        class="mark mark--muted"
-        :style="`grid-column: ${mark.string}`">
-        ╳
-      </div>
-      <div v-if="mark.type === 'open'"
-        class="mark mark--open"
-        :style="`grid-column: ${mark.string}`">
-        ⵔ
-      </div>
-    </template>
+  <div class="container">
+    <div class="fretboard">
+      <!-- frets -->
+      <template v-for="i in 6" :key="i">
+        <div class="fret" :class="{'fret--nut': i === 1 && nut }" :style="`grid-row: ${i}`" />
+      </template>
+  
+      <!-- strings -->
+      <template v-for="i in 6" :key="i">
+        <div class="string" :style="`grid-column: ${i}`" />
+      </template>
+  
+      <!-- marks -->
+      <template v-for="mark, index in marks" :key="index">
+        <div v-if="mark.type === 'single'"
+          class="mark mark--single"
+          :style="`
+            grid-area: ${mark.fret + 1} / ${mark.string};
+            ${mark.color ? 'background-color: ' + mark.color + ';': ''}
+          `">
+          {{ mark.label }}
+        </div>
+        <div v-if="mark.type === 'barre'"
+          class="mark mark--barre"
+          :style="`
+            grid-area: ${mark.fret + 1} / ${mark.endString + 1} / ${mark.fret + 1} / ${mark.startString};
+            width: ${1.5 + 2 * (mark.endString - mark.startString)}em;
+            ${mark.color ? 'background-color: ' + mark.color + ';': ''}
+          `">
+          {{ mark.label }}
+        </div>
+        <div v-if="mark.type === 'muted'"
+          class="mark mark--muted"
+          :style="`grid-column: ${mark.string}`">
+          ╳
+        </div>
+        <div v-if="mark.type === 'open'"
+          class="mark mark--open"
+          :style="`grid-column: ${mark.string}`">
+          ⵔ
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use '@/functions';
 
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .fretboard {
+  background-color: white;
+  color: black;
   display: grid;
   grid-template-columns: functions.fret-grid-strings(6);
   grid-template-rows: functions.fret-grid-frets(5);
-  height: 300px;
-  margin-bottom: 1em;
+  height: 18em;
+  padding-bottom: 1em;
 }
 
 .fret {
