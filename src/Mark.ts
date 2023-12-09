@@ -46,7 +46,7 @@ export interface ScaleMarkConfig {
 
 export type MarkConfig = NeckMarkConfig | ChordMarkConfig | ScaleMarkConfig;
 
-export function parseConfig(input: string): MarkConfig | undefined {
+export function parseConfig(input: string, hideLabels: boolean): MarkConfig | undefined {
   const words = input.split(" ").filter(x => x.length);
   let type: MarkConfig['type'] = 'chord';
   let nut = false;
@@ -132,6 +132,19 @@ export function parseConfig(input: string): MarkConfig | undefined {
         })();
     }
   })
+
+  if(hideLabels) {
+    marks.forEach(mark => {
+      switch (mark.type) {
+        case 'barre':
+        case 'single':
+          delete mark.label;
+          break;
+        default:
+          break;
+      }
+    })
+  }
 
   if(type === 'chord') {
     return {

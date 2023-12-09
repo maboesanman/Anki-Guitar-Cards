@@ -6,10 +6,11 @@ import ChordFigure from './ChordFigure.vue';
 import ScaleFigure from './ScaleFigure.vue';
 
 const props = defineProps<{
-  config: string
+  config: string;
+  hideLabels: boolean;
 }>()
 
-const markConfig = computed(() => parseConfig(props.config))
+const markConfig = computed(() => parseConfig(props.config, props.hideLabels))
 
 onMounted(() => {
   console.log(markConfig.value)
